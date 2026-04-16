@@ -141,10 +141,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountData.cs" />
-    <Compile Include="TestBase.cs" />
-    <Compile Include="TodoData.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Model\AccountData.cs" />
+    <Compile Include="AppManager.cs" />
+    <Compile Include="Helpers\HelperBase.cs" />
+    <Compile Include="Helpers\LoginHelper.cs" />
+    <Compile Include="Helpers\NavigationHelper.cs" />
+    <Compile Include="Tests\TestBase.cs" />
+    <Compile Include="Model\TodoData.cs" />
+    <Compile Include="Helpers\TodoHelper.cs" />
+    <Compile Include="Tests\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
