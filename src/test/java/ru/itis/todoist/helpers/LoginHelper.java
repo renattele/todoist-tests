@@ -10,16 +10,22 @@ public class LoginHelper extends HelperBase {
     }
 
     public void login(AccountData account) {
+        if (isLoggedIn()) {
+            return;
+        }
+
         manager.getNavigation().goToHomePage();
-        clickLoginButtonOnHomepage();
-        waitSeconds(10);
+        if (isLoggedIn()) {
+            return;
+        }
+
+        waitSeconds(5);
+        if (isLoggedIn()) {
+            return;
+        }
         fillCredentialsOnLoginPage(account.getUsername(), account.getPassword());
         clickLoginButtonOnLoginPage();
-        waitSeconds(20);
-    }
-
-    public void clickLoginButtonOnHomepage() {
-        driver.findElement(By.linkText("Log in")).click();
+        waitSeconds(10);
     }
 
     public void fillCredentialsOnLoginPage(String username, String password) {
@@ -29,5 +35,9 @@ public class LoginHelper extends HelperBase {
 
     public void clickLoginButtonOnLoginPage() {
         driver.findElement(By.xpath("//button[@type='submit']")).click();
+    }
+
+    public boolean isLoggedIn() {
+        return !driver.findElements(By.xpath("//button[span[text()='Add task']]")).isEmpty();
     }
 }
