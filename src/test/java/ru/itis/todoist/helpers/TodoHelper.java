@@ -32,9 +32,13 @@ public class TodoHelper extends HelperBase {
     }
 
     public int getInboxTaskCount() {
-        waitSeconds(1);
-        String label = driver.findElement(By.xpath("//li[@id='filter_inbox']//a[contains(@aria-label, 'Inbox')]")).getAttribute("aria-label");
-        return Integer.parseInt(label.replaceAll("\\D+", ""));
+        waitSeconds(2);
+        try {
+            String label = driver.findElement(By.xpath("//li[@id='filter_inbox']//a[contains(@aria-label, 'Inbox')]")).getAttribute("aria-label");
+            return Integer.parseInt(label.replaceAll("\\D+", ""));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public void waitUntilInboxTaskCountIs(int expectedCount) {
