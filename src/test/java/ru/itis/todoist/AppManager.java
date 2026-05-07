@@ -29,7 +29,7 @@ public class AppManager {
         js = (JavascriptExecutor) driver;
         driver.manage().window().setSize(new Dimension(1252, 694));
 
-        String baseUrl = "https://www.todoist.com/auth/login";
+        String baseUrl = Settings.getBaseUrl();
         todo = new TodoHelper(this);
         auth = new LoginHelper(this);
         navigation = new NavigationHelper(this, baseUrl);

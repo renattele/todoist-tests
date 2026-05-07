@@ -14,8 +14,8 @@ public class TestBase {
     }
 
     @BeforeEach
-    public void clearBrowserState() {
-        app.clearBrowserState();
+    public void openHomePage() {
+        app.getNavigation().goToHomePage();
     }
 
     @AfterAll

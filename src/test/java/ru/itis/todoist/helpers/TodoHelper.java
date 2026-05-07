@@ -1,13 +1,12 @@
 package ru.itis.todoist.helpers;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.WheelInput;
 import ru.itis.todoist.AppManager;
 import ru.itis.todoist.model.TodoData;
+
+import java.util.List;
 
 public class TodoHelper extends HelperBase {
     public TodoHelper(AppManager manager) {
@@ -41,10 +40,6 @@ public class TodoHelper extends HelperBase {
         }
     }
 
-    public void waitUntilInboxTaskCountIs(int expectedCount) {
-        waitSeconds(5);
-    }
-
     public boolean isTodoDisplayed(String title) {
         return !driver.findElements(todoTitleLocator(title)).isEmpty();
     }
@@ -55,13 +50,11 @@ public class TodoHelper extends HelperBase {
 
     public void clickNewTaskButtonOnMainPage() {
         waitSeconds(2);
-        driver.findElement(By.xpath("//button[span[text()='Add task']]")).click();
-        if (driver.findElements(By.xpath("//div[@aria-label='Task name']")).isEmpty()) {
-            driver.findElements(By.cssSelector(".plus_add_button"))
-                    .stream()
-                    .findFirst()
-                    .ifPresent(WebElement::click);
-        }
+        clickFirstAvailable(List.of(
+                By.xpath("//button[.//span[normalize-space()='Add task'] or normalize-space()='Add task']"),
+                By.cssSelector("[data-testid='add-task-button']"),
+                By.cssSelector(".plus_add_button")
+        ));
         waitSeconds(1);
     }
 
@@ -96,6 +89,16 @@ public class TodoHelper extends HelperBase {
         waitSeconds(1);
         element.click();
         element.sendKeys(value);
+    }
+
+    private void clickFirstAvailable(List<By> locators) {
+        for (By locator : locators) {
+            List<WebElement> elements = driver.findElements(locator);
+            if (!elements.isEmpty()) {
+                elements.get(0).click();
+                return;
+            }
+        }
     }
 
     private By todoTitleLocator(String title) {
